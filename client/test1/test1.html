@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件上传测试</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+    <button id="btn">测试按钮</button>
+    <script>
+        var baseUrl = 'http://localhost:8081'
+        $(document).ready(function(){
+            $('#btn').on('click',function(){
+                $.ajax({
+                    url: baseUrl + '/file/upload',
+                    data: {
+                        dataType: 1
+                    },
+                    type: 'post',
+                    headers: {'Content-Type': 'application/json;charset=utf8'},
+                    success: function(res){
+                        console.log(res)
+                    },
+                    error: function(res){
+                        console.log(res)
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

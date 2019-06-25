@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件上传测试</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        .images{
+            display: flex;
+        }
+        #images>img{
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" method="post" enctype="multipart/form-data">
+        <input type="file" value="上传文件" id='fileupload' name='file'>
+    </form>
+    <div id="images">
+        
+    </div>
+    <form action="" id='form2'>
+        <input type="text" name='getUserInfo'>
+    </form>
+    <button type="button" id="getUserInfo">获取用户信息</button>
+    <script>
+        var baseUrl = 'http://localhost:9696'
+        $(document).ready(function(){
+            $('#fileupload').on('change',function(){
+                var files = $(this)[0].files;
+                var formData = new FormData($('#form1')[0])
+                formData.append('file',files[0])
+                $.ajax({
+                    url: baseUrl + '/file/upload?id=1001',
+                    data: formData,
+                    type: 'post',
+                    processData : false,
+                    contentType : false,
+                    success: function(res){
+                        console.log(res)
+                        $('#images').html(`<img src='${res.imgUrl}'>`)
+                    },
+                    error: function(res){
+                        console.log(res)
+                    }
+                })
+            })
+            $('#getUserInfo').on('click',function(){
+                var data = $('input[name="getUserInfo"]').val()
+                console.log(data)
+                $.ajax({
+                    url: baseUrl + '/getUserInfo?data='+data,
+                    type: 'get',
+                    success: function(res){
+                        console.log(res)
+                    },
+                    error: function(res){
+                        console.log(res)
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>
